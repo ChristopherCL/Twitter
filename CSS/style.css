@@ -1,0 +1,27 @@
+body
+{
+    background-color: #FFFAF0;
+    font-family: Verdana;
+}
+
+a:link
+{
+    color:black;
+}
+
+a:visited
+{
+    color: black;
+}
+
+a:hover
+{
+    color: blue;
+}
+
+.container
+{
+    width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
