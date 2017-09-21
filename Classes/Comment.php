@@ -111,7 +111,7 @@ class Comment {
         
         static public function loadAllCommentsByTweetId(PDO $connectionToDB, int $tweetId) {
             $allCommentsOfTweet = [];
-            $stmt = $connectionToDB->prepare("SELECT Comments.*, Users.userName FROM Comments, Users WHERE postId = :tweetId AND Comments.userId = Users.id ");
+            $stmt = $connectionToDB->prepare("SELECT Comments.*, Users.userName FROM Comments, Users WHERE postId = :tweetId AND Comments.userId = Users.id ORDER BY commentCreationDate DESC");
             $result = $stmt->execute(['tweetId' => $tweetId]);
             if($result !== false && $stmt->rowCount() != 0) {
                 foreach($stmt->fetchAll(PDO::FETCH_ASSOC) as $comments) {

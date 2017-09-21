@@ -28,13 +28,21 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html>
     <head>
         <meta charset="utf-8" />
+            <link rel="stylesheet" href="CSS/style.css" type="text/css"/>
+
     </head>
     <body>
-        <form method="post">
-            <textarea rows="5" cols="50" maxlength="140" placeholder="What's going on? " name="textOfTweet"></textarea>
-            <button type="submit">Wyślij Tweet</button>
-        </form>
+        <div class="container">
+            
+            <form method="post">
+                <textarea rows="5" cols="50" maxlength="140" placeholder="What's going on? " name="textOfTweet"></textarea>
+                <button type="submit">Wyślij Tweet</button>
+            </form>
+            
+            <div id="Tweets">
+                <?php Tweet::printAllTweets($connectionToDB);?>
+            </div>
+            
+        </div>
     </body>
 </html>
-
-<?php Tweet::printAllTweets($connectionToDB);

@@ -21,7 +21,81 @@ a:hover
 
 .container
 {
-    width: 1000px;
+    width: 1500px;
     margin-left: auto;
     margin-right: auto;
+}
+
+.Tweet
+{
+    font-size: 12px;
+    width: 500px;
+    text-align: center;
+    padding: 5px;
+    border: 3px solid gray;
+    border-radius: 15px;
+}
+
+.Comment
+{
+    font-size: 12px;
+    width: 500px;
+    text-align: center;
+    padding: 5px;
+    border: 3px solid gray;
+    border-radius: 15px;
+}
+
+.SendedMessage
+{
+    margin-top: 10px;
+    font-size: 12px;
+    width: 500px;
+    text-align: center;
+    padding: 5px;
+    border: 3px solid gray;
+    border-radius: 15px;
+}
+
+.ReceivedMessage
+{
+    margin-top: 10px;
+    font-size: 12px;
+    width: 500px;
+    text-align: center;
+    padding: 5px;
+    border: 3px solid gray;
+    border-radius: 15px;
+}
+
+#ReceivedMessages
+{
+    text-align: center;
+    float: left;
+    padding: 10px;
+}
+
+#SendedMessages
+{
+    text-align: center;
+    float: left;
+    padding: 10px;
+}
+
+#profile
+{
+    margin-top: 10px;
+    font-size: 12px;
+    width: 500px;
+    text-align: center;
+    padding: 5px;
+    border: 3px solid gray;
+    border-radius: 15px;
+}
+
+#profile > p
+{
+    font-style: italic;
+    font-weight: 900;
+    font-size: 20px;
 }

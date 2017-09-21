@@ -32,26 +32,33 @@ $users = User::loadAllUsers($connectionToDB);
 <html>
     <head>
         <meta charset="utf-8" />
+            <link rel="stylesheet" href="CSS/style.css" type="text/css"/>
+
     </head>
     <body>
-        <form method="post">
-            <select name="recipientId">
-            <?php
-                foreach($users as $user) {
-                    echo '<option value="'.$user->getId().'">'.$user->getUserName().'</option>';
-                }
-            ?>
-            </select>
-            <textarea rows="5" cols="50" maxlength="140" placeholder="Twoja wiadomość " name="textOfMessage"></textarea>
-            <button type="submit">Wyślij Wiadomość</button>
-        </form>
-        <div>
-            Otrzymane wiadomości:</br>
-            <?php Message::printAllReceivedMessages($connectionToDB, $_SESSION['loggedUserId']);?>
-        </div>
-         <div>
-            Wysłane wiadomości:</br>
-            <?php Message::printAllSendedMessages($connectionToDB, $_SESSION['loggedUserId']);?>
+        <div class="container">
+            <form method="post">
+                <select name="recipientId">
+                <?php
+                    foreach($users as $user) {
+                        echo '<option value="'.$user->getId().'">'.$user->getUserName().'</option>';
+                    }
+                ?>
+                </select>
+                </br>
+                <textarea rows="5" cols="50" maxlength="140" placeholder="Twoja wiadomość " name="textOfMessage"></textarea>
+                </br>
+                <button type="submit">Wyślij Wiadomość</button>
+            </form>
+                <div id="ReceivedMessages">
+                    Otrzymane wiadomości:</br>
+                    <?php Message::printAllReceivedMessages($connectionToDB, $_SESSION['loggedUserId']);?>
+                </div>
+                 <div id="SendedMessages">
+                    Wysłane wiadomości:</br>
+                    <?php Message::printAllSendedMessages($connectionToDB, $_SESSION['loggedUserId']);?>
+                </div>
+                <div style="clear:both"></div>
         </div>
     </body>
 </html>

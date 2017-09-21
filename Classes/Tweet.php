@@ -96,7 +96,7 @@ class Tweet {
     
     static public function loadTweetsByUserId($connectionToDB, $userId) {
         $allUserTweets = [];
-        $stmt = $connectionToDB->prepare("SELECT * FROM Tweets WHERE userId=:userId");
+        $stmt = $connectionToDB->prepare("SELECT * FROM Tweets WHERE userId=:userId ORDER BY tweetCreationDate DESC");
         $result = $stmt->execute(['userId' => $userId]);
        // var_dump($stmt->fetchAll(PDO::FETCH_ASSOC));
         if($result === true && $stmt->rowCount() != 0) {
@@ -158,7 +158,7 @@ class Tweet {
     
     static public function loadAllTweets($connectionToDB) {
         $allTweets = [];
-        $result = $connectionToDB->query("SELECT Tweets.*, Users.userName FROM Tweets, Users WHERE Tweets.userId = Users.id ");
+        $result = $connectionToDB->query("SELECT Tweets.*, Users.userName FROM Tweets, Users WHERE Tweets.userId = Users.id ORDER BY tweetCreationDate DESC");
   
         if($result !== false && $result->rowCount() != 0) {
             foreach($result as $row) {

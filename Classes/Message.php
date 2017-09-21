@@ -100,7 +100,7 @@ class Message {
     
     static public function loadAllReceivedMessagesByUserId($connectionToDB, $userId) {
         $allUserMessages = [];
-        $stmt = $connectionToDB->prepare("SELECT Messages.*, Users.userName FROM Messages, Users WHERE recipientId = :recipientId AND Users.id = Messages.senderId ");
+        $stmt = $connectionToDB->prepare("SELECT Messages.*, Users.userName FROM Messages, Users WHERE recipientId = :recipientId AND Users.id = Messages.senderId ORDER BY messageCreationDate DESC");
         $result = $stmt->execute(['recipientId' => $userId]);
 
         if($result !== false && $stmt->rowCount() != 0) {
@@ -125,7 +125,7 @@ class Message {
     
     static public function loadAllSendedMessagesByUserId($connectionToDB, $userId) {
         $allUserMessages = [];
-        $stmt = $connectionToDB->prepare("SELECT Messages.*, Users.userName FROM Messages, Users WHERE senderId = :senderId AND Users.id = Messages.recipientId");
+        $stmt = $connectionToDB->prepare("SELECT Messages.*, Users.userName FROM Messages, Users WHERE senderId = :senderId AND Users.id = Messages.recipientId ORDER BY messageCreationDate DESC");
         $result = $stmt->execute(['senderId' => $userId]);
 
         if($result !== false && $stmt->rowCount() != 0) {
