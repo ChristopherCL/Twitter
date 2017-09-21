@@ -26,10 +26,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     <body>
         <form action="" method="POST">
             <fieldset>
-                <label>
-                    Email:
-                    <input type="text" name="userEmail" />
-                </label>
+                <legend>Formularz rejestracji</legend>
+                <label for="userEmail">Email:</label>
+                    <input type="text" name="userEmail" id="userEmail"/>
+               
                 <br />
                 <label>
                     Password:

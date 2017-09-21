@@ -36,6 +36,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             <form method="post">
                 <textarea rows="5" cols="50" maxlength="140" placeholder="What's going on? " name="textOfTweet"></textarea>
+                </br>
                 <button type="submit">Wyślij Tweet</button>
             </form>
             

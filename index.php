@@ -21,9 +21,9 @@ require_once 'library.php';
 <body>
    
     <div class="container">
-        <div id="Welcome">
+        <div id="mainPage">
             <p class="navbar-brand">Witaj: <?php echo $loggedUser->getUserName();?></p>
-        </div>
+        
             <ul>
                 <li>
                     <a href="profile.php">Twój profil</a>
@@ -38,6 +38,7 @@ require_once 'library.php';
                     <a href="logout.php">Wyloguj</a>
                 </li>
             </ul>
+        </div>
     </div>
    
 </body>
