@@ -40,7 +40,8 @@ var_dump($_GET['tweetId']);
             <div class="textInput">
                 <form method="post">
                     <textarea rows="5" cols="50" maxlength="140" placeholder="Komentarz" name="textOfComment"></textarea>
-                    <button type="submit">Dodaj komentarz</button>
+                    </br>
+                    <input type="submit" value="Dodaj komentarz">
                 </form>
             </div>
         </div>
