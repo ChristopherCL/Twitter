@@ -37,19 +37,22 @@ $users = User::loadAllUsers($connectionToDB);
     </head>
     <body>
         <div class="container">
-            <form method="post">
-                <select name="recipientId">
-                <?php
-                    foreach($users as $user) {
-                        echo '<option value="'.$user->getId().'">'.$user->getUserName().'</option>';
-                    }
-                ?>
-                </select>
-                </br>
-                <textarea rows="5" cols="50" maxlength="140" placeholder="Twoja wiadomość " name="textOfMessage"></textarea>
-                </br>
-                <button type="submit">Wyślij Wiadomość</button>
-            </form>
+            <div class="textInput">
+                <form method="post">
+                    <select name="recipientId" id="select">
+                    <?php
+                        foreach($users as $user) {
+                            echo '<option value="'.$user->getId().'">'.$user->getUserName().'</option>';
+                        }
+                    ?>
+                    </select>
+                    </br>
+                    <textarea rows="5" cols="50" maxlength="140" placeholder="Twoja wiadomość " name="textOfMessage"></textarea>
+                    </br>
+                    <input type="submit" value="Wyślij Wiadomość">
+                </form>
+            </div>
+            <div id="messages">
                 <div id="ReceivedMessages">
                     Otrzymane wiadomości:</br>
                     <?php Message::printAllReceivedMessages($connectionToDB, $_SESSION['loggedUserId']);?>
@@ -59,6 +62,7 @@ $users = User::loadAllUsers($connectionToDB);
                     <?php Message::printAllSendedMessages($connectionToDB, $_SESSION['loggedUserId']);?>
                 </div>
                 <div style="clear:both"></div>
+            </div>
         </div>
     </body>
 </html>

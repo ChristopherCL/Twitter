@@ -22,22 +22,19 @@ require_once 'library.php';
    
     <div class="container">
         <div id="mainPage">
-            <p class="navbar-brand">Witaj: <?php echo $loggedUser->getUserName();?></p>
-        
-            <ul>
-                <li>
-                    <a href="profile.php">Twój profil</a>
-                </li>
-                <li>
-                    <a href="tweets.php">Tweety</a>
-                </li>
-                <li>
-                    <a href="messages.php">Wiadomości</a>
-                </li>
-                <li>
-                    <a href="logout.php">Wyloguj</a>
-                </li>
-            </ul>
+            <div id="Welcome">Witaj: <?php echo $loggedUser->getUserName();?></div>
+            <a href="profile.php">
+                <div class="link">Twój profil</div>
+            </a>
+            <a href="tweets.php">
+                <div class="link">Tweety</div>
+            </a>
+            <a href="messages.php">
+                <div class="link">Wiadomości</div>
+            </a>
+            <a href="logout.php">
+                <div class="link"> Wyloguj</div>
+            </a>
         </div>
     </div>
    

@@ -22,23 +22,24 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html>
     <head>
         <meta charset="utf-8" />
+            <link rel="stylesheet" href="CSS/style.css" type="text/css"/>
+
     </head>
     <body>
-        <form action="" method="POST">
-            <fieldset>
-                <legend>Formularz rejestracji</legend>
-                <label for="userEmail">Email:</label>
-                    <input type="text" name="userEmail" id="userEmail"/>
-               
-                <br />
-                <label>
-                    Password:
-                    <input type="password" name="userPassword" />
-                </label>
-                <br />
-                <input type="submit" value="Login" />
-            </fieldset>
-        </form>
-        <a href="register.php">If you do not have an account - sign up!</a>
+        <div class="container">
+            <form action="" method="POST">
+           
+                </br>
+                <input type="text" name="userEmail" placeholder="Podaj email"/>
+                </br>
+                </br>
+                <input type="password" name="userPassword" placeholder="Podaj hasło"/>
+                </br>
+                <input type="submit" value="Zaloguj" />
+            </form>
+                <a href="register.php">
+                    <div class="link">Zarejestruj się</div>
+                </a>
+        </div>
     </body>
 </html>

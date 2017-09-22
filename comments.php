@@ -19,12 +19,11 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         else {
             echo "błąd dodawnia komentarza";
         }
-}
+    }
 }
 var_dump($_GET['tweetId']);
 //$comments = Comment::loadAllCommentsByTweetId($connectionToDB, $_GET['tweetId']);
 //var_dump($comments);
-Comment::printAllCommentsOfTweet($connectionToDB, $_GET['tweetId']);
 
 ?>
 
@@ -37,9 +36,16 @@ Comment::printAllCommentsOfTweet($connectionToDB, $_GET['tweetId']);
 
     </head>
     <body>
-        <form method="post">
-            <textarea rows="5" cols="50" maxlength="140" placeholder="Komentarz" name="textOfComment"></textarea>
-            <button type="submit">Dodaj komentarz</button>
-        </form>
+        <div class ="container">
+            <div class="textInput">
+                <form method="post">
+                    <textarea rows="5" cols="50" maxlength="140" placeholder="Komentarz" name="textOfComment"></textarea>
+                    <button type="submit">Dodaj komentarz</button>
+                </form>
+            </div>
+        </div>
+        <div id="comments">
+            <?php Comment::printAllCommentsOfTweet($connectionToDB, $_GET['tweetId']);?>
+        </div>
     </body>
 </html>

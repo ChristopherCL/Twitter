@@ -28,32 +28,24 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html>
     <head>
         <meta charset="utf-8" />
+                    <link rel="stylesheet" href="CSS/style.css" type="text/css"/>
+
     </head>
     <body>
-        <form method="POST">
-            <fieldset>
-                <label>
-                    Email:
-                    <input type="text" name="userEmail" />
-                </label>
-                <br />
-                <label>
-                    Password:
-                    <input type="password" name="userPassword" />
-                </label>
-                <br />
-                <label>
-                    Retyped password:
-                    <input type="password" name="userRetypedPassword" />
-                </label>
-                <br />
-                <label>
-                    Full name:
-                    <input type="text" name="userName" />
-                </label>
-                <br />
-                <input type="submit" value="Register" />
-            </fieldset>
-        </form>
+        <div class="container">
+            <form method="POST">
+
+                <input type="text" name="userEmail" placeholder="Podaj E-mail"/>
+                    <br />
+                <input type="password" name="userPassword" placeholder="Podaj hasło"/>
+                    <br />
+                <input type="password" name="userRetypedPassword" placeholder="Powtórz hasło"/>
+                    <br />
+                <input type="text" name="userName" placeholder="Imię oraz nazwisko"/>
+                    <br />
+                <input type="submit" value="Zarejestruj się" />
+
+            </form>
+        </div>
     </body>
 </html>

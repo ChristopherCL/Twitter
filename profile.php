@@ -19,7 +19,9 @@ require_once __DIR__.'/Functions/connectionToTwitterDataBase.php';
             <div id="profile">
                 <p>Informacje dotyczące Twojego konta:</p>
                 <?php User::printUserActivity($connectionToDB, $_SESSION['loggedUserId']);?>
-                <a href="deleteAccount.php">Usuń swoje konto</a>
+                <a href="deleteAccount.php">
+                    <div class="link" style="background-color: red">Usuń swoje konto</div>
+                </a>
             </div>
             
         </div>

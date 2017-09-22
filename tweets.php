@@ -33,13 +33,15 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     </head>
     <body>
         <div class="container">
-            
-            <form method="post">
-                <textarea rows="5" cols="50" maxlength="140" placeholder="What's going on? " name="textOfTweet"></textarea>
-                </br>
-                <button type="submit">Wyślij Tweet</button>
-            </form>
-            
+            <div class="textInput">
+                <form method="post">
+                    <textarea rows="5" cols="50" maxlength="140" placeholder="Wpisz tekst Tweeta..." name="textOfTweet"></textarea>
+                    </br>
+                    <input type="submit" value="Wyślij Tweet">
+                    </br>
+                    </br>
+                </form>
+            </div>
             <div id="Tweets">
                 <?php Tweet::printAllTweets($connectionToDB);?>
             </div>
