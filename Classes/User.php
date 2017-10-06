@@ -196,7 +196,7 @@ class User {
         }
     }
     
-    public function deleteUser(PDO $connectionToDB) {
+    public function deleteUser(PDO $connectionToDB) : bool {
         if($this->id != -1) {
             $stmt = $connectionToDB->prepare("DELETE FROM Users WHERE id=:id");
             $result = $stmt->execute(['id' => $this->id]);
