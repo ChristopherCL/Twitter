@@ -36,7 +36,7 @@ $users = User::loadAllUsers($connectionToDB);
 
     </head>
     <body>
-        <div class="container">
+        <div class="container2">
             <div class="textInput">
                 <form method="post">
                     <select name="recipientId" id="select">

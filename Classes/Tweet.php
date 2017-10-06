@@ -40,7 +40,11 @@ class Tweet {
     private $userName;
     private $numberOfComments;
     
-    public function __construct(){
+    public function getNumberOfComments() {
+        return $this->numberOfComments;
+    }
+
+        public function __construct(){
         $this->id = -1;
         $this->userId = 0;
         $this->textOfTweet = "";
@@ -158,7 +162,8 @@ class Tweet {
     
     static public function loadAllTweets($connectionToDB) {
         $allTweets = [];
-        $result = $connectionToDB->query("SELECT Tweets.*, Users.userName FROM Tweets, Users WHERE Tweets.userId = Users.id ORDER BY tweetCreationDate DESC");
+        // $result = $connectionToDB->query("SELECT Tweets.*, Users.userName FROM Tweets, Users WHERE Tweets.userId = Users.id ORDER BY tweetCreationDate DESC");
+        $result = $connectionToDB->query("SELECT t.*, u.userName, count(c.id) as commentsNumber FROM Tweets t JOIN Users u ON t.userId = u.id LEFT JOIN Comments c ON t.id=c.postId GROUP BY t.id ORDER BY tweetCreationDate DESC");
   
         if($result !== false && $result->rowCount() != 0) {
             foreach($result as $row) {
@@ -168,6 +173,7 @@ class Tweet {
                 $loadedTweet->textOfTweet = $row['textOfTweet'];
                 $loadedTweet->tweetCreationDate = $row['tweetCreationDate'];
                 $loadedTweet->userName = $row['userName'];
+                $loadedTweet->numberOfComments = $row['commentsNumber'];
                 $allTweets[] = $loadedTweet;
             }
         }
@@ -176,14 +182,16 @@ class Tweet {
     }
     
     static public function printAllTweets($connectionToDB) {
-        if($userTweets = self::loadAllTweets($connectionToDB)) {
+        $userTweets = self::loadAllTweets($connectionToDB);
+        if(is_array($userTweets)) {
             $html ='';
             foreach($userTweets as $tweet) {
                 $html .= self::render('tweetsTemplate', [
                                                     'tweetId' => $tweet->getId(),
                                                     'userId' => $tweet->userName,
                                                     'tweetCreationDate' => $tweet->getTweetCreationDate(),
-                                                    'textOfTweet' => $tweet->getTextOfTweet()
+                                                    'textOfTweet' => $tweet->getTextOfTweet(),
+                                                    'numberOfComments' => $tweet->getNumberOfComments()
                                                   ]);
             }
             echo $html;
@@ -198,7 +206,7 @@ class Tweet {
     }
     
     public function saveToDataBase($connectionToDB) {
-         if($this->id = -1) {
+         if($this->id == -1) {
              
              try{
              $stmt = $connectionToDB->prepare("INSERT INTO Tweets(userId, textOfTweet, tweetCreationDate)
