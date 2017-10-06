@@ -1,9 +1,5 @@
 <?php
 require_once __DIR__.'/../library.php';
-//require_once 'connectionToTwitterDataBase.php';
-//require_once __DIR__.'/../Functions/connectionToTwitterDataBase.php';
-
-//$connectionToDB = connectionToTwitterDataBase();
 
 class Message {
     private $id;
@@ -23,51 +19,51 @@ class Message {
         $this->status = '';
     }
     
-    public function getId() {
+    public function getId() : int {
         return $this->id;
     }
     
-    public function getTextOfMessage() {
+    public function getTextOfMessage() : string {
         return $this->textOfMessage;
     }
         
-    public function setTextOfMessage($textOfMessage) {
+    public function setTextOfMessage(string $textOfMessage) {
         $this->textOfMessage = $textOfMessage;
     }
     
-    public function getSenderId() {
+    public function getSenderId() : int {
         return $this->senderId;
     }
         
-    public function setSenderId($senderId) {
+    public function setSenderId(int $senderId) {
         $this->senderId = $senderId;
     }
     
-    public function getRecipientId() {
+    public function getRecipientId() : int {
         return $this->recipientId;
     }
         
-    public function setRecipientId($recipientId) {
+    public function setRecipientId(int $recipientId) {
         $this->recipientId = $recipientId;
     }
     
-    public function getStatus() {
+    public function getStatus() : int {
         return $this->status;
     }
         
-    public function setStatus($status) {
+    public function setStatus(int $status) {
         $this->status = $status;
     }
     
-    public function getMessageCreationDate() {
+    public function getMessageCreationDate() : string {
         return $this->messageCreationDate;
     }
         
-    public function setMessageCreationDate($messageCreationDate) {
+    public function setMessageCreationDate(string $messageCreationDate) {
         $this->messageCreationDate = $messageCreationDate;
     }
     
-    public function saveToDataBase($connectionToDB) {
+    public function saveToDataBase(PDO $connectionToDB) : bool {
         if($this->id == -1) {
         $stmt = $connectionToDB->prepare("INSERT INTO Messages(textOfMessage, senderId, recipientId, status, messageCreationDate)
                                           VALUES (:textOfMessage, :senderId, :recipientId, :status, :messageCreationDate)");
@@ -98,7 +94,7 @@ class Message {
         return false;    
     }
     
-    static public function loadAllReceivedMessagesByUserId($connectionToDB, $userId) {
+    static public function loadAllReceivedMessagesByUserId(PDO $connectionToDB, int $userId) {
         $allUserMessages = [];
         $stmt = $connectionToDB->prepare("SELECT Messages.*, Users.userName FROM Messages, Users WHERE recipientId = :recipientId AND Users.id = Messages.senderId ORDER BY messageCreationDate DESC");
         $result = $stmt->execute(['recipientId' => $userId]);
@@ -123,7 +119,7 @@ class Message {
 
     }
     
-    static public function loadAllSendedMessagesByUserId($connectionToDB, $userId) {
+    static public function loadAllSendedMessagesByUserId(PDO $connectionToDB,int $userId) {
         $allUserMessages = [];
         $stmt = $connectionToDB->prepare("SELECT Messages.*, Users.userName FROM Messages, Users WHERE senderId = :senderId AND Users.id = Messages.recipientId ORDER BY messageCreationDate DESC");
         $result = $stmt->execute(['senderId' => $userId]);
@@ -148,7 +144,7 @@ class Message {
 
     }
     
-    static public function printAllSendedMessages($connectionToDB, $userId) {
+    static public function printAllSendedMessages(PDO $connectionToDB, int $userId) {
             if($allReceivedMessages = self::loadAllSendedMessagesByUserId($connectionToDB, $userId)) {
                 $html = '';
                 foreach ($allReceivedMessages as $message) {
@@ -165,7 +161,7 @@ class Message {
             }
         }
     
-    static public function render($template, $data) {
+    static public function render(string $template, array $data) {
         $html = file_get_contents(__DIR__.'/../Templates/'.$template.'.html');
         foreach($data as $key=>$value) {
             $html = str_replace('{{'.$key.'}}', $value, $html);
@@ -189,54 +185,6 @@ class Message {
                 echo 'Nie otrzymałeś jeszcze żadnych wiadmości';
             }
         }
-    
-    /*static public function loadAllReceivedMessagesByUserId($connectionToDB, $userId) {
-        $allUserMessages = [];
-        $stmt = $connectionToDB->prepare("SELECT * FROM Messages WHERE recipientId = :recipientId");
-        $result = $stmt->execute(['recipientId' => $userId]);
-
-        if($result !== false && $stmt->rowCount() != 0) {
-            foreach($stmt->fetchAll(PDO::FETCH_ASSOC) as $messages) {
-                $message = new Message();
-                $message->id = $messages['id'];
-                $message->senderId = $messages['senderId'];
-                $message->recipientId = $messages['recipientId'];
-                $message->status = $messages['status'];
-                $message->textOfMessage = $messages['textOfMessage'];
-                $message->messageCreationDate = $messages['messageCreationDate'];
-                $allUserMessages[] = $message;
-            }
-            return $allUserMessages;
-        }
-        else {
-            return false;
-        }
-
-    }*/
-    
-    /*static public function loadAllSendedMessagesByUserId($connectionToDB, $userId) {
-        $allUserMessages = [];
-        $stmt = $connectionToDB->prepare("SELECT * FROM Messages WHERE senderId = :senderId");
-        $result = $stmt->execute(['senderId' => $userId]);
-
-        if($result !== false && $stmt->rowCount() != 0) {
-            foreach($stmt->fetchAll(PDO::FETCH_ASSOC) as $messages) {
-                $message = new Message();
-                $message->id = $messages['id'];
-                $message->senderId = $messages['senderId'];
-                $message->recipientId = $messages['recipientId'];
-                $message->status = $messages['status'];
-                $message->textOfMessage = $messages['textOfMessage'];
-                $message->messageCreationDate = $messages['messageCreationDate'];
-                $allUserMessages[] = $message;
-            }
-            return $allUserMessages;
-        }
-        else {
-            return false;
-        }
-
-    }*/
         
     public function deleteMessage($connectionToDB) {
         if($this->tweetId != -1) {
@@ -251,42 +199,3 @@ class Message {
         return true;
     }
 }
-
-/*$message = new Message();
-var_dump($message);
-$message->setRecipientId(2);
-$message->setSenderId(43);
-$message->setStatus(1);
-
-var_dump($message);
-
-$message->saveToDB($connectionToDB);
-
-var_dump($message);*/
-//$messages = Message::loadAllMessagesByUserId($connectionToDB, 5);
-//var_dump($messages);
-
-//$massages2 = Message::loadAllSendedMessagesByUserId($connectionToDB, 43);
-//var_dump($massages2);
-
-/*$newMessage = new Message;
-        $newMessage->setSenderId(2);
-        $newMessage->setRecipientId(3);
-        $newMessage->setTextOfMessage('hfihfe');
-        $newMessage->setStatus(1);
-        $newMessage->setMessageCreationDate('2014');
-        var_dump($newMessage);
-        $newMessage->saveToDataBase($connectionToDB);
-        try {
-            $newMessage->saveToDataBase($connectionToDB);
-            echo 'Wysłano wiadomość do użytkownika';
-        } catch (Exception $exeption) {
-            echo 'Błąd wysyłania wiadomości: '.$exeption->getMessage();
-        }*/
-
-    // Message::printAllReceivedMessages($connectionToDB, 1);
-
-//$result = Message::loadAllSendedMessagesByUserId($connectionToDB, 2);
-//var_dump($result);
-//Message::printAllSendedMessages($connectionToDB, 2);
-//Message::printAllReceivedMessages($connectionToDB, 2);

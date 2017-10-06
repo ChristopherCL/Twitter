@@ -2,7 +2,6 @@
 
 session_start();
 require_once 'library.php';
-//require_once __DIR__.'/connectionToTwitterDataBase.php';
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $userEmail = isset($_POST['userEmail']) ? trim($_POST['userEmail']) : null;

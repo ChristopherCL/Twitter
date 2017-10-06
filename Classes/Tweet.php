@@ -1,36 +1,5 @@
 <?php
 require_once __DIR__.'/../library.php';
-//require_once 'connectionToTwitterDataBase.php';
-//require_once __DIR__.'/../Functions/connectionToTwitterDataBase.php';
-
-//$connectionToDB = connectionToTwitterDataBase();
-//require_once __DIR__.'/../library.php';
-//require_once __DIR__.'/../Functions/connectionToTwitterDataBase.php';
-
-/*
-function connectionToTwitterDataBase() {
-
-    try {
-                
-        $serverName = "localhost";
-        $userName = "root";
-        $password = "coderslab";
-        $dataBaseName = "Twitter";
-                
-        return new PDO("mysql:host=$serverName;
-                                   dbname=$dataBaseName;
-                                   charset=utf8", $userName, $password,
-                                   [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-        echo "Połączenie udane";
-         }
-    catch (PDOException $exeption) {
-              echo 'Błąd podczas łączenia z bazą danych: ' . $exeption->getMessage();
-              die();
-    }
-    var_dump($connectionToDB);
-}
-*/
-//$connectionToDB = connectionToTwitterDataBase();
 
 class Tweet {
     private $id;
@@ -51,39 +20,39 @@ class Tweet {
         $this->tweetCreationDate = "";
     }
     
-    public function setId($id) {
+    public function setId(int $id) {
         $this->id = $id;
     }
     
-    public function getId(){
+    public function getId() : int {
         return $this->id;
     }
     
-    public function setUserId($userId){
+    public function setUserId(int $userId){
         $this->userId = $userId;
     }
     
-    public function getUserId(){
+    public function getUserId() : int {
         return $this->userId;
     }
     
-    public function setTextOfTweet($textOfTweet){
+    public function setTextOfTweet(string $textOfTweet){
         $this->textOfTweet = $textOfTweet;
     }
     
-    public function getTextOfTweet(){
+    public function getTextOfTweet() : string {
         return $this->textOfTweet;
     }
     
-    public function setTweetCreationDate($tweetCreationDate){
+    public function setTweetCreationDate(string $tweetCreationDate){
         $this->tweetCreationDate = $tweetCreationDate;
     }
     
-    public function getTweetCreationDate(){
+    public function getTweetCreationDate() : string {
         return $this->tweetCreationDate;
     }
     
-    static public function loadTweetById($connectionToDB, $id){
+    static public function loadTweetById(PDO $connectionToDB, int $id){
         $stmt = $connectionToDB->prepare("SELECT * FROM Tweets WHERE id=:id");
         $result = $stmt->execute(['id' => $id]);
         if($result === true && $stmt->rowCount() > 0) {
@@ -98,11 +67,11 @@ class Tweet {
         return null;
     }
     
-    static public function loadTweetsByUserId($connectionToDB, $userId) {
+    static public function loadTweetsByUserId(PDO $connectionToDB, int $userId) {
         $allUserTweets = [];
         $stmt = $connectionToDB->prepare("SELECT * FROM Tweets WHERE userId=:userId ORDER BY tweetCreationDate DESC");
         $result = $stmt->execute(['userId' => $userId]);
-       // var_dump($stmt->fetchAll(PDO::FETCH_ASSOC));
+
         if($result === true && $stmt->rowCount() != 0) {
             foreach($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
                 $loadedTweet = new Tweet();
@@ -117,7 +86,7 @@ class Tweet {
         return null;
     }
     
-    static public function printTweetsByUserId($connectionToDB, $userId) {
+    static public function printTweetsByUserId(PDO $connectionToDB, int $userId) {
         $userTweets = self::loadTweetsByUserId($connectionToDB, $userId);
         $html ='';
         foreach($userTweets as $tweet) {
@@ -129,13 +98,9 @@ class Tweet {
                                               ]);
         }
         echo $html;
-        /*foreach($userTweets as $tweet) {
-            echo $tweet->getId().', '. $tweet->getUserId().', '. $tweet->getTextOfTweet().', '.$tweet->getTweetCreationDate().'</br>';
-            echo '<a href=comments.php?tweetId='.$tweet->getId().'>Pokaż komentarze</a></br>';
-        }*/
     }
     
-    static public function render($template, $data) {
+    static public function render(string $template, array $data) {
         $html = file_get_contents(__DIR__.'/../Templates/'.$template.'.html');
         foreach($data as $key=>$value) {
             $html = str_replace('{{'.$key.'}}', $value, $html);
@@ -143,26 +108,8 @@ class Tweet {
         return $html;
     }
     
-    /*public function loadAllTweets($connectionToDB) {
+    static public function loadAllTweets(PDO $connectionToDB) : array {
         $allTweets = [];
-        $result = $connectionToDB->query("SELECT * FROM Tweets");
-        
-        if($result === true && $result->rowCount() != 0) {
-            foreach($result as $row) {
-                $loadedTweet = new Tweet();
-                $loadedTweet->id = $row['id'];
-                $loadedTweet->userId = $row['userId'];
-                $loadedTweet->textOfTweet = $row['text'];
-                $loadedTweet->tweetCreationDate = $row['creationDate'];
-                $allTweets[] = $loadedTweet;
-            }
-        }
-        return $allTweets;
-    }*/
-    
-    static public function loadAllTweets($connectionToDB) {
-        $allTweets = [];
-        // $result = $connectionToDB->query("SELECT Tweets.*, Users.userName FROM Tweets, Users WHERE Tweets.userId = Users.id ORDER BY tweetCreationDate DESC");
         $result = $connectionToDB->query("SELECT t.*, u.userName, count(c.id) as commentsNumber FROM Tweets t JOIN Users u ON t.userId = u.id LEFT JOIN Comments c ON t.id=c.postId GROUP BY t.id ORDER BY tweetCreationDate DESC");
   
         if($result !== false && $result->rowCount() != 0) {
@@ -199,13 +146,9 @@ class Tweet {
         else {
             echo 'Nie ma jeszcze żanych Tweetów. Bądz pierwszy!';
         }
-        /*foreach($userTweets as $tweet) {
-            echo $tweet->getId().', '. $tweet->getUserId().', '. $tweet->getTextOfTweet().', '.$tweet->getTweetCreationDate().'</br>';
-            echo '<a href=comments.php?tweetId='.$tweet->getId().'>Pokaż komentarze</a></br>';
-        }*/
     }
     
-    public function saveToDataBase($connectionToDB) {
+    public function saveToDataBase(PDO $connectionToDB) : bool {
          if($this->id == -1) {
              
              try{
@@ -225,22 +168,6 @@ class Tweet {
                 return true;
              }
          }
-         return false;
-         
+         return false;    
     }
 }
-/*
-$testTweet = new Tweet();
-$testTweet->setTextOfTweet("Testowatresctweeta");
-$testTweet->setTweetCreationDate("2017");
-$testTweet->setUserId(6);
-
-var_dump($testTweet);
-
-var_dump($testTweet->saveToDataBase($connectionToDB));
-*/
-//$result = Tweet::loadTweetsByUserId($connectionToDB, 6);
-//var_dump($result);
-//Tweet::printTweetsByUserId($connectionToDB, 6);
-
-//Tweet::printAllTweets($connectionToDB);

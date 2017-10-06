@@ -1,7 +1,7 @@
 <?php
 
 require_once 'library.php';
-require_once __DIR__.'/Functions/connectionToTwitterDataBase.php';
+//require_once __DIR__.'/Functions/connectionToTwitterDataBase.php';
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $userEmail = !empty($_POST['userEmail']) ? trim($_POST['userEmail']) : null;

@@ -1,9 +1,6 @@
 <?php
 
-//require_once 'connectionToTwitterDataBase.php';
-require_once __DIR__.'/../Functions/connectionToTwitterDataBase.php';
-
-//$connectionToDB = connectionToTwitterDataBase();
+require_once __DIR__.'/../library.php';
 
 class Comment {
     private $id;
@@ -21,23 +18,23 @@ class Comment {
         $this->textOfComment = '';
     }
         
-        public function getCommentId() {
+        public function getCommentId() : int {
             return $this->commentId;
         }
         
-        public function getUserId() {
+        public function getUserId() : int {
             return $this->userId;
         }
         
-        public function setUserId($userId) {
+        public function setUserId(int $userId) {
             $this->userId = $userId;
         }
         
-        public function getPostId() {
+        public function getPostId() : int {
             return $this->postId;
         }
         
-        public function setPostId($postId) {
+        public function setPostId(int $postId) {
             $this->postId = $postId;
         }
         
@@ -49,15 +46,15 @@ class Comment {
             $this->commentCreationDate = $commentCreationDate;
         }
         
-        public function getTextOfComment() {
+        public function getTextOfComment() : string {
             return $this->textOfComment;
         }
         
-        public function setTextOfComment($textOfComment) {
+        public function setTextOfComment(string $textOfComment) {
             $this->textOfComment = $textOfComment;
         }
         
-        public function saveToDataBase($connectionToDB) {
+        public function saveToDataBase(PDO $connectionToDB) : bool {
             if($this->id == -1) {
             $stmt = $connectionToDB->prepare("INSERT INTO Comments(userId, postId, commentCreationDate, textOfComment)
                                               VALUES (:userId, :postId, :commentCreationDate, :textOfComment)");
@@ -88,27 +85,6 @@ class Comment {
             return false;    
         }
         
-        /*static public function loadAllCommentsByTweetId($connectionToDB, $tweetId) {
-            $allCommentsOfTweet = [];
-            $stmt = $connectionToDB->prepare("SELECT * FROM Comments WHERE postId = :tweetId");
-            $result = $stmt->execute(['tweetId' => $tweetId]);
-            if($result !== false && $stmt->rowCount() != 0) {
-                foreach($stmt->fetchAll(PDO::FETCH_ASSOC) as $comments) {
-                    $comment = new Comment();
-                    $comment->id = $comments['id'];
-                    $comment->userId = $comments['userId'];
-                    $comment->postId = $comments['postId'];
-                    $comment->textOfComment = $comments['textOfComment'];
-                    $comment->commentCreationDate = $comments['commentCreationDate'];
-                    $allCommentsOfTweet[] = $comment;
-                }
-                return $allCommentsOfTweet;
-            }
-            else {
-                return false;
-            }
-        }*/
-        
         static public function loadAllCommentsByTweetId(PDO $connectionToDB, int $tweetId) {
             $allCommentsOfTweet = [];
             $stmt = $connectionToDB->prepare("SELECT Comments.*, Users.userName FROM Comments, Users WHERE postId = :tweetId AND Comments.userId = Users.id ORDER BY commentCreationDate DESC");
@@ -131,7 +107,7 @@ class Comment {
             }
         }
         
-        static public function render($template, $data) {
+        static public function render(string $template,array $data) : string {
         $html = file_get_contents(__DIR__.'/../Templates/'.$template.'.html');
         foreach($data as $key=>$value) {
             $html = str_replace('{{'.$key.'}}', $value, $html);
@@ -139,7 +115,7 @@ class Comment {
         return $html;
         }
         
-        static public function printAllCommentsOfTweet($connectionToDB, $tweetId) {
+        static public function printAllCommentsOfTweet(PDO $connectionToDB,int $tweetId) {
             if($tweetComments = self::loadAllCommentsByTweetId($connectionToDB, $tweetId)){
                 $html = '';
                 foreach ($tweetComments as $comment) {
@@ -156,7 +132,7 @@ class Comment {
             }
         }
         
-        public function deleteComment($connectionToDB) {
+        public function deleteComment(PDO $connectionToDB) : bool {
         if($this->tweetId != -1) {
             $stmt = $connectionToDB->prepare("DELETE FROM Comments WHERE id=:id");
             $result = $stmt->execute(['id' => $this->tweetId]);
@@ -169,23 +145,3 @@ class Comment {
         return true;
     }
 }
-
-/*$comment = new Comment();
-$comment->setUserId(3);
-$comment->setPostId(6);
-$comment->setCommentCreationDate(2017);
-$comment->setText('przykładowy teskt 2');
-
-var_dump($comment);
-var_dump($connectionToDB);
-
-//$comment->saveToDB($connectionToDB);
-var_dump($comment);
-//$comment->setText('nowy przykładowy tekst');
-
-//var_dump($comment);
-
-//$comment->saveToDB($connectionToDB);*/
-//$result = Comment::loadAllCommentsByTweetId($connectionToDB, 4);
-//var_dump($result);
-//Comment::printAllCommentsOfTweet($connectionToDB, 4);

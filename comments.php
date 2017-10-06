@@ -2,7 +2,6 @@
 session_start();
 
 require_once 'library.php';
-require_once __DIR__.'/Functions/connectionToTwitterDataBase.php';
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
     if(isset($_SESSION['loggedUserId']) && isset($_POST['textOfComment'])) {
@@ -21,12 +20,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
-var_dump($_GET['tweetId']);
-//$comments = Comment::loadAllCommentsByTweetId($connectionToDB, $_GET['tweetId']);
-//var_dump($comments);
-
 ?>
-
 
 <!DOCTYPE html>
 <html>

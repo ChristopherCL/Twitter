@@ -1,35 +1,7 @@
 <?php
+
 require_once __DIR__.'/../library.php';
 
-//require_once __DIR__.'/../Functions/connectionToTwitterDataBase.php';
-//require_once __DIR__.'/../library.php';
-
-/*function connectionToTwitterDataBase() {
-
-    try {
-                
-        $serverName = "localhost";
-        $userName = "root";
-        $password = "coderslab";
-        $dataBaseName = "Twitter";
-                
-        return new PDO("mysql:host=$serverName;
-                                   dbname=$dataBaseName;
-                                   charset=utf8", $userName, $password,
-                                   [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-        echo "Połączenie udane";
-         }
-    catch (PDOException $exeption) {
-              echo 'Błąd podczas łączenia z bazą danych: ' . $exeption->getMessage();
-              die();
-    }
-    var_dump($connectionToDB);
-}*/
-//$connectionToDB = connectionToTwitterDataBase();
-
-//$connectionToDB = connectionToTwitterDataBase();
-//require_once 'connectionToTwitterDataBase.php';
-//var_dump($connectionToDB);
 class User {
     
     private $id;
@@ -47,19 +19,19 @@ class User {
         $this->userEmail = '';
     }
     
-    public function setId($id) {
+    public function setId(int $id) {
         $this->id = $id;
     }
     
-    public function getId() {
+    public function getId() : int {
         return $this->id;
     }
     
-    public function setUserName($userName) {
+    public function setUserName(string $userName) {
         $this->userName = $userName;
     }
     
-    public function getUserName() {
+    public function getUserName() : string {
         return $this->userName;
     }
     
@@ -71,15 +43,15 @@ class User {
         return $this->userHashPassword;
     }
     
-    public function setUserEmail($userEmail) {
+    public function setUserEmail(string $userEmail) {
         $this->userEmail = $userEmail;
     }
     
-    public function getUserEmail() {
+    public function getUserEmail() : string {
         return $this->userEmail;
     }
     
-    public function saveToDataBase($connectionToDB) {
+    public function saveToDataBase(PDO $connectionToDB) : bool {
         if($this->id == -1) {
             $stmt = $connectionToDB->prepare("INSERT INTO Users(userName, userEmail, userHashPassword)
                                               VALUES (:userName, :userEmail, :userPassword)");
@@ -109,7 +81,7 @@ class User {
         return false;
     }
     
-    static public function loadUserById($connectionToDB, $id) {
+    static public function loadUserById(PDO $connectionToDB, int $id) {
         $stmt = $connectionToDB->prepare("SELECT * FROM Users WHERE id=:id");
         $result = $stmt->execute(['id' => $id]);
       
@@ -130,7 +102,7 @@ class User {
         return null;
     }
     
-    static public function loadUserActivity($connectionToDB, $userId) {
+    static public function loadUserActivity(PDO $connectionToDB, int $userId) {
         $stmt = $connectionToDB->prepare("SELECT (SELECT COUNT(Comments.userId) FROM Comments WHERE userId = :userId) as numberOfComments, (SELECT COUNT(Tweets.userId) FROM Tweets WHERE userId = :userId) as numberOfTweets, (SELECT COUNT(Messages.recipientId) FROM Messages WHERE recipientId = :userId) as numberOfMessages FROM Messages, Comments, Tweets, Users WHERE Tweets.id = Comments.postId AND Users.id = Tweets.userId AND Users.id = Comments.userId AND Users.id = Messages.senderId ");
         $result = $stmt->execute(['userId' => $userId]);
       
@@ -150,7 +122,7 @@ class User {
         return null;
     }
     
-    static public function render($template, $data) {
+    static public function render(string $template, array $data) {
         $html = file_get_contents(__DIR__.'/../Templates/'.$template.'.html');
         foreach($data as $key=>$value) {
             $html = str_replace('{{'.$key.'}}', $value, $html);
@@ -158,7 +130,7 @@ class User {
         return $html;
     }
     
-    static public function printUserActivity($connectionToDB, $userId) {
+    static public function printUserActivity(PDO $connectionToDB, int $userId) {
             $userActivity = self::loadUserActivity($connectionToDB, $userId);
             $html = '';
           
@@ -171,7 +143,7 @@ class User {
             echo $html;
         }
     
-    static public function loadAllUsers($connectionToDB) {
+    static public function loadAllUsers(PDO $connectionToDB) {
         $tableOfAllUsers = [];
         
         $result = $connectionToDB->query("SELECT * FROM Users");
@@ -207,7 +179,7 @@ class User {
         }
     }
     
-    public static function login($connectionToDB, $userEmail, $userPassword) {
+    public static function login(PDO $connectionToDB, string $userEmail, $userPassword) {
         $stmt = $connectionToDB->prepare("SELECT * FROM Users WHERE userEmail=:userEmail ");
         $stmt->execute(['userEmail' => $userEmail]);
         if($stmt->rowCount() === 1) {
@@ -224,7 +196,7 @@ class User {
         }
     }
     
-    public function deleteUser($connectionToDB) {
+    public function deleteUser(PDO $connectionToDB) {
         if($this->id != -1) {
             $stmt = $connectionToDB->prepare("DELETE FROM Users WHERE id=:id");
             $result = $stmt->execute(['id' => $this->id]);
@@ -237,33 +209,3 @@ class User {
         return true;
     }
 }
-
-//$TestUser = new User();
-//var_dump($TestUser);
-//$TestUser->setUserName("Krzysztof");
-//$TestUser->setUserHashPassword(1234);
-//$TestUser->setUserEmail("krzysztof@gmail.com");
-//var_dump($TestUser);
-//$TestUser->saveToDataBase($connectionToDB);
-//var_dump($TestUser);
-//$result2 = User::loadUserById($connectionToDB, 6);
-//var_dump($result2);
-
-//$result3 = User::loadAllUsers($connectionToDB);
-//var_dump($result3);
-
-//$result2->deleteUser($connectionToDB);
-
-//$result2->setUserEmail('Kubica@gmail.com');
-//$result2->saveToDataBase($connectionToDB);
-
-//$result = User::loadUserByEmail($connectionToDB, 'Kubica@gmail.com');
-//var_dump($result);
-
-//$result4 = User::login($connectionToDB, 'Kubica@gmail.com', '1234');
-//var_dump($result4);
-
-//$result = User::loadUserActivity($connectionToDB, 1);
-//var_dump($result);
-
-//User::printUserActivity($connectionToDB, 1);

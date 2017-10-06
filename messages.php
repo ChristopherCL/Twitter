@@ -2,8 +2,6 @@
 
 session_start();
 require_once 'library.php';
-//require_once __DIR__.'/Functions/connectionToTwitterDataBase.php';
-var_dump($_SESSION['loggedUserId']);
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
     if(isset($_POST['textOfMessage'])) {
@@ -21,9 +19,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
-
-//$messages = Message::loadAllReceivedMessagesByUserId($connectionToDB, $_SESSION['loggedUserId']);
-//var_dump($messages);
 
 $users = User::loadAllUsers($connectionToDB);
 
@@ -66,5 +61,3 @@ $users = User::loadAllUsers($connectionToDB);
         </div>
     </body>
 </html>
-
-<?php//    Message::printAllReceivedMessages($connectionToDB, $_SESSION['loggedUserId']);
