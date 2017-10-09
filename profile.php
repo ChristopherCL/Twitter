@@ -7,7 +7,7 @@ require_once __DIR__.'/Functions/connectionToTwitterDataBase.php';
 if(!isset($_SESSION['loggedUserId'])) {
     header('Location: login.php');
 }
-    
+
 ?>
 
 <!DOCTYPE html>

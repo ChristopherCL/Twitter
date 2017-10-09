@@ -9,8 +9,8 @@ CREATE TABLE Users  (
 CREATE TABLE Tweets  (
                     id INT AUTO_INCREMENT,
                     userId INT(11),
-                    textOfTweet VARCHAR(255),
-                    tweetCreationDate VARCHAR(60),
+                    textOfTweet VARCHAR(140),
+                    tweetCreationDate DATETIME,
                     PRIMARY KEY(id),
                     FOREIGN KEY(userId) REFERENCES Users(id)
                     ON DELETE CASCADE
@@ -21,6 +21,7 @@ CREATE TABLE Comments  (
                     userId INT(11),
                     postId INT(11),
                     textOfComment VARCHAR(255),
+			commentCreationDate DATETIME,
                     PRIMARY KEY(id),
                     FOREIGN KEY(userId) REFERENCES Users(id) ON DELETE CASCADE,
                     FOREIGN KEY(postId) REFERENCES Tweets(id) ON DELETE CASCADE
@@ -29,10 +30,11 @@ CREATE TABLE Comments  (
 CREATE TABLE Messages  (
                     id INT(11) AUTO_INCREMENT,
                     senderId INT(11),
-                    receiverId INT(11),
+                    recipientId INT(11),
                     status INT(11),
                     textOfMessage VARCHAR(255),
+		messageCreationDate DATETIME,
                     PRIMARY KEY(id),
                     FOREIGN KEY(senderId) REFERENCES Users(id) ON DELETE CASCADE,
-                    FOREIGN KEY(receiverId) REFERENCES Users(id) ON DELETE CASCADE
+                    FOREIGN KEY(recipientId) REFERENCES Users(id) ON DELETE CASCADE
                     );

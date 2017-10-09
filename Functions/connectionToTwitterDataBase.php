@@ -7,7 +7,7 @@ function connectionToTwitterDataBase() {
         $serverName = "localhost";
         $userName = "root";
         $password = "coderslab";
-        $dataBaseName = "TWITTER2";
+        $dataBaseName = "TWITTER3";
                 
         return new PDO("mysql:host=$serverName;
                                    dbname=$dataBaseName;

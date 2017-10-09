@@ -106,7 +106,7 @@ class User {
         $stmt = $connectionToDB->prepare("SELECT (SELECT COUNT(Comments.userId) FROM Comments WHERE userId = :userId) as numberOfComments, (SELECT COUNT(Tweets.userId) FROM Tweets WHERE userId = :userId) as numberOfTweets, (SELECT COUNT(Messages.recipientId) FROM Messages WHERE recipientId = :userId) as numberOfMessages FROM Messages, Comments, Tweets, Users WHERE Tweets.id = Comments.postId AND Users.id = Tweets.userId AND Users.id = Comments.userId AND Users.id = Messages.senderId ");
         $result = $stmt->execute(['userId' => $userId]);
       
-        if($result === true && $stmt->rowCount() > 0) {
+        if($result === true) {
             try {
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
                 $loadedUser = new User();
@@ -132,6 +132,7 @@ class User {
     
     static public function printUserActivity(PDO $connectionToDB, int $userId) {
             $userActivity = self::loadUserActivity($connectionToDB, $userId);
+
             $html = '';
           
                 $html .= self::render('userActivityTemplate',   [
