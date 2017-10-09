@@ -12,7 +12,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
             header('Location: index.php');
         }
         else { 
-            echo "Niepoprawny adres email lub hasło.";     
+            echo '<div class="Welcome">Niepoprawny adres email lub hasło.</div>';     
         }
         
 }
@@ -26,9 +26,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     </head>
     <body>
         <div class="container">
+            
+            <div class="Welcome">Witamy na Twiterze</div>
+            
             <form action="" method="POST">
-           
-                </br>
                 <input type="text" name="userEmail" placeholder="Podaj email"/>
                 </br>
                 </br>
@@ -36,9 +37,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </br>
                 <input type="submit" value="Zaloguj" />
             </form>
-                <a href="register.php">
-                    <div class="link">Zarejestruj się</div>
-                </a>
+            
+                <a href="register.php"><div class="link">Zarejestruj się</div></a>
         </div>
     </body>
 </html>

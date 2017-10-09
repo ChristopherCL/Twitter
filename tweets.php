@@ -2,7 +2,11 @@
 session_start();
 
 require_once 'library.php';
-require_once __DIR__.'/Functions/connectionToTwitterDataBase.php';
+//require_once __DIR__.'/Functions/connectionToTwitterDataBase.php';
+
+if(!isset($_SESSION['loggedUserId'])) {
+    header('Location: login.php');
+}
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
     if(isset($_SESSION['loggedUserId']) && isset($_POST['textOfTweet'])) {
@@ -32,10 +36,12 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     <body>
         <div class="container">
             <div class="textInput">
+                <div class="Welcome">Tweety</div>
                 <form method="post">
-                    <textarea rows="5" cols="50" maxlength="140" placeholder="Wpisz tekst Tweeta..." name="textOfTweet"></textarea>
+                    <textarea rows="3" cols="150" maxlength="140" placeholder="Wpisz tekst Tweeta..." name="textOfTweet"></textarea>
                     </br>
                     <input type="submit" value="Wyślij Tweet">
+                    <a href="index.php"><div class="link" style="background-color: #304ac4">Strona Główna</div></a>
                     </br>
                     </br>
                 </form>

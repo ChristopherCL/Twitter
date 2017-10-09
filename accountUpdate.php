@@ -3,7 +3,11 @@
 session_start();
 
 require_once 'library.php';
-require_once __DIR__.'/Functions/connectionToTwitterDataBase.php';
+//require_once __DIR__.'/Functions/connectionToTwitterDataBase.php';
+
+if(!isset($_SESSION['loggedUserId'])) {
+    header('Location: login.php');
+}
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newUserEmail = !empty($_POST['newUserEmail']) ? trim($_POST['newUserEmail']) : null;
@@ -18,7 +22,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
             $loggedUser->setUserName($newUserName);
             try {
                 $loggedUser->saveToDataBase($connectionToDB);
-                echo 'Zmiana danych użytkownika zakończona powodzeniem';
+                echo '<div class="Welcome">Zmiana danych użytkownika zakończona powodzeniem</div>';
             } catch (Exception $exeption) {
                 echo 'Wystąpił błąd podczas zmiany danych: '.$exeption->getMessage();
               }
@@ -33,6 +37,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     </head>
     <body>
         <div class="container">
+            
+            <div class="Welcome">Wiadomości</div>
+            
             <form method="POST">
                 <input type="text" name="newUserEmail" placeholder="Nowy Email"/>
                     <br/>
@@ -44,6 +51,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <br/>
                 <input type="submit" value="Aktualizuj swoje dane"/>
             </form>
+            
+            <a href="index.php"><div class="link" style="background-color: #304ac4">Strona Główna</div></a>
         </div>
     </body>
 </html>

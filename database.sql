@@ -22,8 +22,8 @@ CREATE TABLE Comments  (
                     postId INT(11),
                     textOfComment VARCHAR(255),
                     PRIMARY KEY(id),
-                    FOREIGN KEY(userId) REFERENCES Users(id),
-                    FOREIGN KEY(postId) REFERENCES Tweets(id)
+                    FOREIGN KEY(userId) REFERENCES Users(id) ON DELETE CASCADE,
+                    FOREIGN KEY(postId) REFERENCES Tweets(id) ON DELETE CASCADE
                     );
 
 CREATE TABLE Messages  (
@@ -33,6 +33,6 @@ CREATE TABLE Messages  (
                     status INT(11),
                     textOfMessage VARCHAR(255),
                     PRIMARY KEY(id),
-                    FOREIGN KEY(senderId) REFERENCES Users(id),
-                    FOREIGN KEY(receiverId) REFERENCES Users(id)
+                    FOREIGN KEY(senderId) REFERENCES Users(id) ON DELETE CASCADE,
+                    FOREIGN KEY(receiverId) REFERENCES Users(id) ON DELETE CASCADE
                     );

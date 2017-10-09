@@ -33,14 +33,6 @@ a:hover
     text-align: center;
 }
 
-.container2
-{
-    width: 1500px;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-}
-
 .textInput
 {
     text-align: center;
@@ -74,10 +66,9 @@ a:hover
 
 #messages
 {
-    width: 1500px;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: left;
+    width: 1000px;
+   
+    text-align: center;
 }
 
 .SendedMessage
@@ -85,9 +76,10 @@ a:hover
     
     margin-top: 10px;
     font-size: 12px;
-    width: 500px;
+    width: 400px;
     text-align: center;
-    padding: 5px;
+    margin-left: auto;
+    margin-right: auto;
     border: 3px solid gray;
     border-radius: 15px;
 }
@@ -97,9 +89,10 @@ a:hover
    
     margin-top: 10px;
     font-size: 12px;
-    width: 500px;
+    width: 400px;
     text-align: center;
-    padding: 5px;
+    margin-left: auto;
+    margin-right: auto;
     border: 3px solid gray;
     border-radius: 15px;
 }
@@ -107,24 +100,20 @@ a:hover
 #ReceivedMessages
 {
     width: 500px;
-    margin-left: 150px;
-    margin-right: 120px;
+    margin-top: 50px;
     float: left;
-    padding: 10px;
     text-align: center;
-
 }
 
 #SendedMessages
 {
-    width: 500 px;
-    margin-right: 150px;
+    width: 500px;
+    margin-top: 50px;
     float: left;
-    padding: 10px;
     text-align: center;
 }
 
-#Welcome
+.Welcome
 {
     text-align: center;
     margin-left: auto;
@@ -168,9 +157,9 @@ input[type=password]
 {
     width: 300px;
     background-color: #efefef;
-    color: #666;
+    color: black;
     border: 2px solid #ddd;
-    border-radius: 5px;
+    border-radius: 30px;
     font-size: 20px;
     padding: 10px;
     box-sizing: border-box;
@@ -193,7 +182,7 @@ input[type=submit]
     padding: 15px 10px;
     margin-top: 10px;
     border: none;
-    border-radius: 5px;
+    border-radius: 30px;
     cursor: pointer;
     letter-spacing: 2px;
     outline: none;
@@ -206,15 +195,16 @@ input[type=submit]:hover
 
 textarea
 {
-    width: 300px;
+    width: 400px;
     background-color: #ffffff;
     font-size: 20px;
-    color: white;
+    color: black;
     padding: 15px 10px;
     margin-top: 10px;
     border: none;
-    border-radius: 5px;
+    border-radius: 50px;
     outline: none;
+    resize: none;
 }
 
 textarea:focus
@@ -233,11 +223,16 @@ textarea:focus
     padding: 15px 10px;
     margin-top: 10px;
     border: none;
-    border-radius: 5px;
+    border-radius: 30px;
     cursor: pointer;
     letter-spacing: 2px;
     outline: none;
     box-sizing: border-box;
+}
+
+.link:hover
+{
+    background-color: #37b93d;
 }
 
 .innerLink
@@ -251,7 +246,7 @@ textarea:focus
     padding: 2px 2px;
     margin-top: 10px;
     border: none;
-    border-radius: 5px;
+    border-radius: 30px;
     cursor: pointer;
     letter-spacing: 2px;
     outline: none;

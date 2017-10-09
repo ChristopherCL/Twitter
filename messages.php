@@ -3,6 +3,10 @@
 session_start();
 require_once 'library.php';
 
+if(!isset($_SESSION['loggedUserId'])) {
+    header('Location: login.php');
+}
+
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
     if(isset($_POST['textOfMessage'])) {
         $newMessage = new Message;
@@ -31,7 +35,8 @@ $users = User::loadAllUsers($connectionToDB);
 
     </head>
     <body>
-        <div class="container2">
+        <div class="container">
+            <div class="Welcome">Wiadomości</div>
             <div class="textInput">
                 <form method="post">
                     <select name="recipientId" id="select">
@@ -42,11 +47,12 @@ $users = User::loadAllUsers($connectionToDB);
                     ?>
                     </select>
                     </br>
-                    <textarea rows="5" cols="50" maxlength="140" placeholder="Twoja wiadomość " name="textOfMessage"></textarea>
+                    <textarea rows="5" cols="50" maxlength="140" placeholder="Twoja wiadomość..." name="textOfMessage"></textarea>
                     </br>
                     <input type="submit" value="Wyślij Wiadomość">
                 </form>
             </div>
+            <a href="index.php"><div class="link" style="background-color: #304ac4">Strona Główna</div></a>
             <div id="messages">
                 <div id="ReceivedMessages">
                     Otrzymane wiadomości:</br>

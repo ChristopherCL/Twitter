@@ -22,7 +22,7 @@ require_once 'library.php';
    
     <div class="container">
         <div id="mainPage">
-            <div id="Welcome">Witaj: <?php echo $loggedUser->getUserName();?></div>
+            <div class="Welcome">Witaj: <?php echo $loggedUser->getUserName();?></div>
             <a href="profile.php">
                 <div class="link">Twój profil</div>
             </a>

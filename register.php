@@ -1,7 +1,6 @@
 <?php
 
 require_once 'library.php';
-//require_once __DIR__.'/Functions/connectionToTwitterDataBase.php';
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $userEmail = !empty($_POST['userEmail']) ? trim($_POST['userEmail']) : null;
@@ -33,6 +32,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     </head>
     <body>
         <div class="container">
+            <div class="Welcome">Rejestracja</div>
             <form method="POST">
 
                 <input type="text" name="userEmail" placeholder="Podaj E-mail"/>
@@ -46,6 +46,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="submit" value="Zarejestruj się" />
 
             </form>
+                <a href="login.php">
+                    <div class="link">Logowanie</div>
+                </a>
         </div>
     </body>
 </html>
